@@ -853,6 +853,10 @@ func configureKernelSecuritySupport(config *config.Config, driverNames []string)
 }
 
 func (daemon *Daemon) initNetworkController(config *config.Config, activeSandboxes map[string]interface{}) (libnetwork.NetworkController, error) {
+	if err := config.ProcessPoolsConfig(); err != nil {
+		return nil, err
+	}
+
 	netOptions, err := daemon.networkOptions(config, daemon.PluginStore, activeSandboxes)
 	if err != nil {
 		return nil, err
